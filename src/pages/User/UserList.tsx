@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './css/style.css';
 import { Link } from 'react-router-dom';
 
-
+// import { useHistory } from 'react-router-dom';
 
 interface User {
   id: number;
@@ -20,7 +20,6 @@ interface ApiResponse {
   data: User[];
 }
 
-
 const UserList: React.FC = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -28,6 +27,8 @@ const UserList: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(0);
+  const [success, setSuccess] = useState<boolean>(false);
+  // const history = useHistory(); // Hook để điều hướng
 
   const fetchUsers = async (page: number) => {
     try {
@@ -55,9 +56,35 @@ const UserList: React.FC = () => {
     user.email.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>, { input }) => {
+    e.preventDefault();
+    try {
+      const response = await fetch(`https://reqres.in/api/users/${input}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        }
+
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to update user');
+      }
+      setSuccess(true);
+      // Quay lại trang danh sách người dùng hoặc thực hiện hành động khác sau khi cập nhật thành công
+      // history.push('/');
+    } catch (error) {
+      setError(error instanceof Error ? error.message : 'Unknown error');
+    }
+  };
+
+
+
+
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
-
 
   return (
     <div className="container">
@@ -65,7 +92,7 @@ const UserList: React.FC = () => {
 
       <div className="sidebar">
         <h2>
-          LOREM GF
+          Management
         </h2>
         <ul>
           <li>
@@ -148,9 +175,9 @@ const UserList: React.FC = () => {
             (2)
           </div>
           <button className="new-user">
-          <a href="/add"> New User</a>
+            <a href="/add"> New User</a>
           </button>
-       
+
         </div>
         <div className="table-container">
 
@@ -168,25 +195,37 @@ const UserList: React.FC = () => {
             <tbody>
               {filteredUsers.map(user => (
                 <tr key={user.id}>
-                  <td> <img src={user.avatar} alt={`${user.first_name} ${user.last_name}`} width={50} /></td>
+                  <td>
+                    <img src={user.avatar} alt={`${user.first_name} ${user.last_name}`} width={50} />
+                  </td>
                   <td>{user.email}</td>
                   <td>{user.first_name} {user.last_name}</td>
                   <td>
-                    <i className="fas fa-edit">
-                    </i>
-                    
-                    <i className="fas fa-trash">
-                    </i>
-                  </td>
-                  
-                </tr>
+                    {/* <i className="fas fa-edit" onClick={() => history.push(`/users/${user.id}`)} style={{ cursor: 'pointer', marginRight: '10px' }}></i> */}
 
+
+                    <Link to={`/users/${user.id}`} className="badge badge-warning">
+                      <i className="fas fa-edit"></i>
+                    </Link>
+
+
+                    <button>
+                      <i className="fas fa-trash" style={{ cursor: 'pointer' }}
+                        onClick={() => handleSubmit(e, user.id)}
+
+                      ></i>
+                    </button>
+
+            
+
+                  </td>
+                </tr>
               ))}
 
             </tbody>
           </table>
         </div>
-    
+
 
         <div className="pagination">
           <div className="showing">
