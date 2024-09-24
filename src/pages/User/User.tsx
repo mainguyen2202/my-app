@@ -1,85 +1,81 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-
-interface User {
-  id: number;
-  email: string;
-  first_name: string;
-  last_name: string;
-  avatar: string;
-}
-
-interface ApiResponse {
-  data: User;
-}
+import React, { ChangeEvent, useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import IUserlData from '../../types/User';
+import UserDataService from "../../services/UserService";
 
 const User: React.FC = () => {
+  const { id } = useParams();
+  // console.log("id",id);
+  let navigate = useNavigate();
 
-  const { id } = useParams<{ id: string }>();
-  const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
-  const [isEditing, setIsEditing] = useState<boolean>(false);
-  const [success, setSuccess] = useState<boolean>(false);
+  const initialUserState = {
+    id: null,
+    email: "",
+    first_name: "",
+    last_name: "",
+    avatar: "",
+    published: false
+  };
+  const [currentUser, setCurrentUser] = useState<IUserlData>(initialUserState);
+  const [message, setMessage] = useState<string>("");
 
-  const fetchUser = async () => {
-    try {
-      const response = await fetch(`https://reqres.in/api/users/${id}`);
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      const data: ApiResponse = await response.json();
-      setUser(data.data);
-    } catch (error) {
-      setError(error instanceof Error ? error.message : 'Unknown error');
-    } finally {
-      setLoading(false);
-    }
+  // detail
+  const getTutorial = (id: String) => {
+    UserDataService.get(id)
+      .then((response: any) => {
+        setCurrentUser(response.data.data);
+        console.log("detail", currentUser);
+      })
+      .catch((e: Error) => {
+        console.log(e);
+      });
   };
 
   useEffect(() => {
+    if (id)
+      getTutorial(id);
 
 
-    fetchUser();
   }, [id]);
 
+  // update
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    setCurrentUser({ ...currentUser, [name]: value });
+  };
 
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (user) {
-      setUser({
-        ...user,
-        [e.target.name]: e.target.value,
+  const updateUser = () => {
+    UserDataService.update(currentUser.id, currentUser)
+      .then((response: any) => {
+        console.log("update", response.data);
+        setMessage("The user was updated successfully!");
+      })
+      .catch((e: Error) => {
+        console.log(e);
       });
-    }
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (user) {
-      try {
-        const response = await fetch(`https://reqres.in/api/users/${user.id}`, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(user),
-        });
+  const updatePublished = (status: boolean) => {
+    var data = {
+      id: currentUser.id,
+      email: currentUser.email,
+      first_name: currentUser.first_name,
+      last_name: currentUser.last_name,
+      avatar: currentUser.avatar,
+      published: status
+    };
 
-        if (!response.ok) {
-          throw new Error('Failed to update user');
-        }
-        setSuccess(true);
-        // Quay lại trang danh sách người dùng hoặc thực hiện hành động khác sau khi cập nhật thành công
-        // history.push('/');
-      } catch (error) {
-        setError(error instanceof Error ? error.message : 'Unknown error');
-      }
-    }
+    UserDataService.update(currentUser.id, data)
+      .then((response: any) => {
+        console.log("updatePublished", response.data);
+        setCurrentUser({ ...currentUser, published: status });
+        setMessage("The status was updated successfully!");
+      })
+      .catch((e: Error) => {
+        console.log(e);
+      });
   };
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error}</div>;
 
 
   return (
@@ -106,13 +102,13 @@ const User: React.FC = () => {
 
 
 
-          {user && (
+          {currentUser && (
             <div>
 
 
-              <form onSubmit={handleSubmit}>
+              <div >
                 <div className="form-group">
-                  <img src={user.avatar} alt={`${user.first_name} ${user.last_name}`} width={100} />
+                  <img src={currentUser.avatar} alt={`${currentUser.first_name} ${currentUser.last_name}`} width={100} />
                   {/* <label >Avatar</label> */}
                   <button type="button" className="upload-btn">Upload</button>
                 </div>
@@ -123,8 +119,8 @@ const User: React.FC = () => {
                   <input type="text"
                     name="first_name"
                     placeholder="Họ"
-                    value={user.first_name}
-                    onChange={handleChange}
+                    value={currentUser.first_name}
+                    onChange={handleInputChange}
                     required />
                   <div className="help-text">Required. Your name</div>
                 </div>
@@ -135,8 +131,8 @@ const User: React.FC = () => {
                   <input type="text"
                     name="last_name"
                     placeholder="Tên"
-                    value={user.last_name}
-                    onChange={handleChange}
+                    value={currentUser.last_name}
+                    onChange={handleInputChange}
                     required />
                   <div className="help-text">Required. Your name</div>
                 </div>
@@ -145,16 +141,35 @@ const User: React.FC = () => {
                   <input type="email"
                     name="email"
                     placeholder="Email"
-                    value={user.email}
-                    onChange={handleChange}
+                    value={currentUser.email}
+                    onChange={handleInputChange}
                     required />
                   <div className="help-text">Required. Your e-mail</div>
                 </div>
-                <button type="submit" className="submit-btn">Save Changes</button>
-                {error && <div style={{ color: 'red' }}>Lỗi: {error}</div>}
+
+                {currentUser.published ? (
+            <button
+              className="submit-btn submit-btn-cancel"
+              onClick={() => updatePublished(false)}
+            >
+              UnPublish
+            </button>
+          ) : (
+            <button
+               className="submit-btn"
+              onClick={() => updatePublished(true)}
+            >
+              Publish
+            </button>
+          )}
+
+                <button type="submit"
+                  onClick={updateUser}
+                  className="submit-btn">Update</button>
+                {/* {error && <div style={{ color: 'red' }}>Lỗi: {error}</div>}
                 {success && <div style={{ color: 'green' }}>Người dùng đã được cập nhật thành công!</div>}
-                <button type="button" className="submit-btn submit-btn-cancel" onClick={() => setIsEditing(false)}>Cancel</button>
-              </form>
+                <button type="button" className="submit-btn submit-btn-cancel" onClick={() => setIsEditing(false)}>Cancel</button> */}
+              </div>
             </div>
           )}
         </div>
