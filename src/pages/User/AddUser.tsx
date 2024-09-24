@@ -1,55 +1,62 @@
-import React, { useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import './css/style.css';
 import './css/create.css';
-interface User {
-  email: string;
-  first_name: string;
-  last_name: string;
-}
+import IUserlData from '../../types/User';
+import UserDataService from "../../services/UserService";
 
 const AddUser: React.FC = () => {
-  const [user, setUser] = useState<User>({
-    email: '',
-    first_name: '',
-    last_name: '',
-  });
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState<boolean>(false);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setUser((prevUser) => ({ ...prevUser, [name]: value }));
+  const initialUserState = {
+    id: null,
+    email: "",
+    first_name: "",
+    last_name: "",
+    avatar: "",
+    published: false
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setError(null);
-    setSuccess(false);
 
-    try {
-      const response = await fetch('https://reqres.in/api/users', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(user),
+  const [user, setUser] = useState<IUserlData>(initialUserState);
+  const [submitted, setSubmitted] = useState<boolean>(false);
+
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    setUser({ ...user, [name]: value });
+  };
+
+  const saveUser = () => {
+    var data = {
+      email: user.email,
+      first_name: user.first_name,
+      last_name: user.last_name,
+      // avatar: user.avatar,
+      avatar: " user.avatar",
+    };
+
+    UserDataService.create(data)
+      .then((response: any) => {
+        setUser({
+          id: response.data.id,
+          email: response.data.email,
+          first_name: response.data.first_name,
+          last_name: response.data.last_name,
+          avatar: response.data.avatar,
+          published: response.data.published
+        });
+        console.log("thành công");
+        setSubmitted(true);
+        console.log(response.data);
+      })
+      .catch((e: Error) => {
+        console.log(e);
       });
-
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-
-      const data = await response.json();
-      console.log(data);
-      setSuccess(true);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Unknown error');
-    } finally {
-      setLoading(false);
-    }
   };
+
+  const newUser = () => {
+    setUser(initialUserState);
+    setSubmitted(false);
+  };
+
+
 
   return (
     <div>
@@ -58,7 +65,7 @@ const AddUser: React.FC = () => {
       <div className="container">
 
 
-    
+
         <div className="content">
           <div className="header">
             <h1>
@@ -75,52 +82,62 @@ const AddUser: React.FC = () => {
             </div>
           </div>
 
-
-
-          <form onSubmit={handleSubmit}>
-            <div className="form-group">
-              <label >Avatar</label>
-              <button type="button" className="upload-btn">Upload</button>
-            </div>
-            <div className="form-group">
-              <label className="label-text">first_name</label>
-              <input type="text"
-                name="first_name"
-                placeholder="Họ"
-                value={user.first_name}
-                onChange={handleChange}
-                required />
-              <div className="help-text">Required. Your name</div>
-            </div>
-            <div className="form-group">
-              <label className="label-text">last_name</label>
-              <input  type="text"
-                name="last_name"
-                placeholder="Tên"
-                value={user.last_name}
-                onChange={handleChange}
-                required/>
-              <div className="help-text">Required. Your name</div>
-            </div>
-            <div className="form-group">
-              <label className="label-text">Email</label>
-              <input   type="email"
-                name="email"
-                placeholder="Email"
-                value={user.email}
-                onChange={handleChange}
-                required />
-              <div className="help-text">Required. Your e-mail</div>
-            </div>
-            <button type="submit"className="submit-btn" disabled={loading}>
-                {loading ? 'Đang Tạo...' : 'Tạo Người Dùng'}
+          {submitted ? (
+            <div>
+              <h4>You submitted successfully!</h4>
+              <button className="btn btn-success" onClick={newUser}>
+                Add
               </button>
-              {error && <div style={{ color: 'red' }}>Lỗi: {error}</div>}
-              {success && <div style={{ color: 'green' }}>Người dùng đã được tạo thành công!</div>}
-          
-       
-          </form>
+            </div>
+          ) : (
 
+            <div >
+              <div className="form-group">
+                <label >Avatar</label>
+                <button type="button" className="upload-btn">Upload</button>
+              </div>
+              <div className="form-group">
+                <label className="label-text">first_name</label>
+                <input type="text"
+                  name="first_name"
+                  placeholder="Họ"
+                  value={user.first_name}
+                  onChange={handleInputChange}
+                  required />
+                <div className="help-text">Required. Your name</div>
+              </div>
+              <div className="form-group">
+                <label className="label-text">last_name</label>
+                <input type="text"
+                  name="last_name"
+                  placeholder="Tên"
+                  value={user.last_name}
+                  onChange={handleInputChange}
+                  required />
+                <div className="help-text">Required. Your name</div>
+              </div>
+              <div className="form-group">
+                <label className="label-text">Email</label>
+                <input type="email"
+                  name="email"
+                  placeholder="Email"
+                  value={user.email}
+                  onChange={handleInputChange}
+                  required />
+                <div className="help-text">Required. Your e-mail</div>
+              </div>
+              <button onClick={saveUser} className="btn btn-success">
+                Submit
+              </button>
+              {/* <button type="submit" className="submit-btn" disabled={loading}>
+              {loading ? 'Đang Tạo...' : 'Tạo Người Dùng'}
+            </button>
+            {error && <div style={{ color: 'red' }}>Lỗi: {error}</div>}
+            {success && <div style={{ color: 'green' }}>Người dùng đã được tạo thành công!</div>} */}
+
+
+            </div>
+          )}
         </div>
       </div>
     </div>

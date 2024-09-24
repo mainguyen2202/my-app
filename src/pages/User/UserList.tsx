@@ -1,90 +1,64 @@
-import React, { useEffect, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import './css/style.css';
 import { Link } from 'react-router-dom';
-
-// import { useHistory } from 'react-router-dom';
-
-interface User {
-  id: number;
-  email: string;
-  first_name: string;
-  last_name: string;
-  avatar: string;
-}
-
-interface ApiResponse {
-  page: number;
-  per_page: number;
-  total: number;
-  total_pages: number;
-  data: User[];
-}
+import IUserlData from '../../types/User';
+import UserDataService from "../../services/UserService";
 
 const UserList: React.FC = () => {
-  const [users, setUsers] = useState<User[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
-  const [searchTerm, setSearchTerm] = useState<string>('');
+  const [users, setUsers] = useState<Array<IUserlData>>([]);
+
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(0);
-  const [success, setSuccess] = useState<boolean>(false);
-  // const history = useHistory(); // Hook để điều hướng
 
-  const fetchUsers = async (page: number) => {
-    try {
-      const response = await fetch(`https://reqres.in/api/users?page=${page}`);
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      const data: ApiResponse = await response.json();
-      setUsers(data.data);
-      setTotalPages(data.total_pages);
-    } catch (error) {
-      setError(error instanceof Error ? error.message : 'Unknown error');
-    } finally {
-      setLoading(false);
-    }
-  };
+  const [searchTerm, setSearchTerm] = useState<string>('');
+
+  const [success, setSuccess] = useState<boolean>(false);
+
+
 
   useEffect(() => {
-    fetchUsers(currentPage);
+    retrieveUsers(currentPage);
+
   }, [currentPage]);
 
+  //  list: page
+  const retrieveUsers = (page: number) => {
+    UserDataService.getAllByPage(page)
+      .then((response: any) => {
+
+        setUsers(response.data.data);
+        console.log(response.data.data);
+
+        // total page
+        setTotalPages(response.data.total_pages);
+
+      })
+      .catch((e: Error) => {
+        console.log(e);
+      });
+  };
+
+  // search
   const filteredUsers = users.filter(user =>
     user.first_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     user.last_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     user.email.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-
-
-  const handleDelete = async (userId: number) => {
-    const confirmDelete = window.confirm('Are you sure you want to delete this user?');
-    if (confirmDelete) {
-      try {
-        const response = await fetch(`https://reqres.in/api/users/${userId}`, {
-          method: 'DELETE',
-        });
-        
-        if (!response.ok) {
-          throw new Error('Failed to delete user');
-        }
-        setUsers(prev => prev.filter(user => user.id !== userId));
-  
-        // Cập nhật lại danh sách người dùng nếu cần
-        // setFilteredUsers(prev => prev.filter(user => user.id !== userId));
-      } catch (error) {
-        console.error(error);
-        alert('An error occurred while trying to delete the user.');
-      }
-    }
+  // delete
+  const deleteTutorial = (idInput: number) => {
+    UserDataService.remove(idInput)
+      .then((response: any) => {
+        console.log(response.data);
+        // Cập nhật danh sách người dùng sau khi xóa
+        setUsers(prevUsers => prevUsers.filter(user => user.id !== idInput));
+        // prevUsers là danh sách người dùng hiện tại, và phương thức filter sẽ tạo ra một mảng mới chứa tất cả người dùng ngoại trừ người dùng có id bằng idInput.
+      })
+      .catch((e: Error) => {
+        console.log(e);
+      });
   };
 
-
-
-
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error}</div>;
 
   return (
     <div className="container">
@@ -211,12 +185,12 @@ const UserList: React.FC = () => {
 
                     <button>
                       <i className="fas fa-trash" style={{ cursor: 'pointer' }}
-                        onClick={() => handleDelete( user.id)}
+                        onClick={() => deleteTutorial( user.id)}
 
                       ></i>
                     </button>
 
-            
+
 
                   </td>
                 </tr>
