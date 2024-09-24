@@ -58,25 +58,25 @@ const UserList: React.FC = () => {
 
 
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>, { input }) => {
-    e.preventDefault();
-    try {
-      const response = await fetch(`https://reqres.in/api/users/${input}`, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
+  const handleDelete = async (userId: number) => {
+    const confirmDelete = window.confirm('Are you sure you want to delete this user?');
+    if (confirmDelete) {
+      try {
+        const response = await fetch(`https://reqres.in/api/users/${userId}`, {
+          method: 'DELETE',
+        });
+        
+        if (!response.ok) {
+          throw new Error('Failed to delete user');
         }
-
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to update user');
+        setUsers(prev => prev.filter(user => user.id !== userId));
+  
+        // Cập nhật lại danh sách người dùng nếu cần
+        // setFilteredUsers(prev => prev.filter(user => user.id !== userId));
+      } catch (error) {
+        console.error(error);
+        alert('An error occurred while trying to delete the user.');
       }
-      setSuccess(true);
-      // Quay lại trang danh sách người dùng hoặc thực hiện hành động khác sau khi cập nhật thành công
-      // history.push('/');
-    } catch (error) {
-      setError(error instanceof Error ? error.message : 'Unknown error');
     }
   };
 
@@ -211,7 +211,7 @@ const UserList: React.FC = () => {
 
                     <button>
                       <i className="fas fa-trash" style={{ cursor: 'pointer' }}
-                        onClick={() => handleSubmit(e, user.id)}
+                        onClick={() => handleDelete( user.id)}
 
                       ></i>
                     </button>
