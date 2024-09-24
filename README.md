@@ -1,3 +1,10 @@
+# scss
+sass ./scss/styleSCSS.scss ./scss/styleCSS.css
+
+sass src/pages/User/scss/style.scss src/pages/User/scss/style.css
+
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

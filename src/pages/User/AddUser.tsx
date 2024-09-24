@@ -1,6 +1,5 @@
 import React, { ChangeEvent, useState } from 'react';
 import './css/style.css';
-import './css/create.css';
 import IUserlData from '../../types/User';
 import UserDataService from "../../services/UserService";
 
@@ -85,7 +84,7 @@ const AddUser: React.FC = () => {
           {submitted ? (
             <div>
               <h4>You submitted successfully!</h4>
-              <button className="btn btn-success" onClick={newUser}>
+              <button className="btn submit-btn" onClick={newUser}>
                 Add
               </button>
             </div>
@@ -126,7 +125,7 @@ const AddUser: React.FC = () => {
                   required />
                 <div className="help-text">Required. Your e-mail</div>
               </div>
-              <button onClick={saveUser} className="btn btn-success">
+              <button onClick={saveUser} className="btn submit-btn">
                 Submit
               </button>
               {/* <button type="submit" className="submit-btn" disabled={loading}>

@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
-import './css/style.css';
+import './scss/style.css';
 import { Link } from 'react-router-dom';
 import IUserlData from '../../types/User';
 import UserDataService from "../../services/UserService";

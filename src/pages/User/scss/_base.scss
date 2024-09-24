@@ -1,0 +1,274 @@
+// _base.scss
+@import 'variables';
+
+body {
+    font-family: $font-family;
+    background-color: $background-color;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 100%;
+    margin: 50px auto;
+    background-color: $table-bg;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar {
+    background-color: $sidebar-bg;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    color: $table-bg;
+    padding-top: 20px;
+    flex: 3;
+    /* Chiếm 3 phần */
+    padding: 20px;
+    /* Khoảng cách bên trong */
+
+    h2 {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    ul {
+        list-style-type: none;
+        padding: 0;
+
+        li {
+            padding: 15px 20px;
+            cursor: pointer;
+            text-align: left;
+
+            &:hover {
+                background-color: darken($sidebar-bg, 10%);
+            }
+
+            i {
+                margin-right: 10px;
+            }
+        }
+    }
+}
+.content {
+    flex: 9;
+    /* Chiếm 9 phần */
+    /* background-color: #ffffff; */
+    /* Màu nền cho content */
+    padding: 20px;
+    /* Khoảng cách bên trong */
+    margin-left: 250px;
+    padding: 20px;
+}
+
+.header {
+    @include flex-center-center;
+    justify-content: space-between;
+    padding: 20px;
+    background-color: $background-color;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+    h1 {
+        margin: 0;
+        font-size: 24px;
+        color: $text-color;
+    }
+
+    .user-info {
+        @include flex-center;
+
+        img {
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .name {
+            margin-right: 10px;
+            color: gray;
+        }
+    }
+}
+.search-bar {
+    @include flex-center;
+    margin-top: 20px;
+
+    input {
+        padding: 10px;
+        border: 1px solid $border-color;
+        border-radius: 5px;
+        width: 300px;
+        margin-right: 10px;
+        color: $text-color;
+    }
+
+    .notifications {
+        margin-right: 10px;
+        color: $text-color;
+    }
+
+    .new-user {
+        @include button-style($primary-color, $table-bg);
+    }
+}
+
+.table-container {
+    margin-top: 20px;
+    background-color: $background-color;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+
+    th,
+    td {
+        padding: 15px;
+        text-align: left;
+        color: $text-color;
+        border: 1px solid $border-color;
+    }
+
+    th {
+        background-color: $background-color;
+    }
+
+    tr:nth-child(even) {
+        background-color: $table-bg;
+    }
+     .fa-trash{
+        color: $error-color;
+    }
+     .fa-edit{
+        color: $primary-color;
+    }
+}
+
+
+
+.pagination {
+    @include flex-between-center;
+  
+    padding: 20px;
+
+    .showing {
+        display: flex;
+        align-items: center;
+        color: $text-color;
+
+        select {
+            margin-left: 10px;
+            padding: 5px;
+        }
+    }
+
+    .pages {
+        @include flex-center;
+
+        button {
+            padding: 10px;
+            border: none;
+            background-color: $background-color;
+            cursor: pointer;
+            margin: 0 5px;
+
+            &.active {
+                background-color: $primary-color;
+                color: $table-bg;
+                border-radius: 5px;
+            }
+        }
+    }
+}
+
+.form-group {
+    margin-bottom: 20px;
+
+    label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    input[type="text"],
+    input[type="email"] {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid $border-input-color;
+        border-radius: 4px;
+        font-size: 1rem;
+    }
+
+    .help-text {
+        font-size: 0.875rem;
+        color: $border-help-text-color;
+        margin-top: 5px;
+    }
+
+    .upload-btn {
+        @include button-style($primary-color, $table-bg);
+    }
+}
+
+.submit-btn {
+    @include button-style($success-color, $table-bg);
+    margin-right: 2px;
+}
+
+.submit-btn-cancel {
+    @include button-style($error-color, $table-bg);
+}
+
+/* Responsive Styles */
+@media (max-width: 767px) {
+    .sidebar {
+        position: relative;
+        height: auto;
+        width: 100%;
+        display: block;
+    }
+    .content {
+        margin-left: 0;
+        padding: 10px;
+    }
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .search-bar input {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    @include table-responsive;
+}
+
+@media (min-width: 768px) and (max-width: 1199px) {
+    .sidebar {
+        width: 200px;
+    }
+    .content {
+        margin-left: 200px;
+        padding: 15px;
+    }
+    .header {
+        padding: 15px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .sidebar {
+        width: 250px;
+    }
+    .content {
+        margin-left: 250px;
+        padding: 20px;
+    }
+}
