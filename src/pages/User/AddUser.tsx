@@ -1,7 +1,8 @@
 import React, { ChangeEvent, useState } from 'react';
-import './css/style.css';
+// import './styles/scss/style.css';
 import IUserlData from '../../types/User';
 import UserDataService from "../../services/UserService";
+import Sidebar from '../../components/layout/Sidebar';
 
 const AddUser: React.FC = () => {
   const initialUserState = {
@@ -63,7 +64,7 @@ const AddUser: React.FC = () => {
 
       <div className="container">
 
-
+      <Sidebar />
 
         <div className="content">
           <div className="header">

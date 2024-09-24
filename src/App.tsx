@@ -5,6 +5,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import UserList from './pages/User/UserList';
 import AddUser from './pages/User/AddUser';
 import User from './pages/User/User';
+import './styles/scss/style.css';
 
 function App() {
   return (
