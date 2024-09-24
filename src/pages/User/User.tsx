@@ -2,6 +2,8 @@ import React, { ChangeEvent, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import IUserlData from '../../types/User';
 import UserDataService from "../../services/UserService";
+import Sidebar from '../../components/layout/Sidebar';
+
 
 const User: React.FC = () => {
   const { id } = useParams();
@@ -82,7 +84,7 @@ const User: React.FC = () => {
     <div>
       <div className="container">
 
-
+      <Sidebar />
 
         <div className="content">
           <div className="header">

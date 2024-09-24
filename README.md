@@ -3,7 +3,7 @@ sass ./scss/styleSCSS.scss ./scss/styleCSS.css
 
 sass src/pages/User/scss/style.scss src/pages/User/scss/style.css
 
-
+sass src/styles/scss/style.scss src/styles/scss/style.css
 
 # Getting Started with Create React App
 

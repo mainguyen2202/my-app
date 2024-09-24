@@ -1,8 +1,10 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
-import './scss/style.css';
+
+
 import { Link } from 'react-router-dom';
 import IUserlData from '../../types/User';
 import UserDataService from "../../services/UserService";
+import Sidebar from '../../components/layout/Sidebar';
 
 const UserList: React.FC = () => {
   const [users, setUsers] = useState<Array<IUserlData>>([]);
@@ -63,64 +65,8 @@ const UserList: React.FC = () => {
   return (
     <div className="container">
 
+      <Sidebar />
 
-      <div className="sidebar">
-        <h2>
-          Management
-        </h2>
-        <ul>
-          <li>
-            <i className="fas fa-users">
-            </i>
-            People Management
-          </li>
-          <li>
-            <i className="fas fa-cogs">
-            </i>
-            System
-          </li>
-          <li>
-            <i className="fas fa-sliders-h">
-            </i>
-            Configuration
-          </li>
-          <li>
-            <i className="fas fa-folder-open">
-            </i>
-            Commands
-          </li>
-          <li>
-            <i className="fas fa-chart-bar">
-            </i>
-            Analysis
-          </li>
-          <li>
-            <i className="fas fa-cogs">
-            </i>
-            Configuration
-          </li>
-          <li>
-            <i className="fas fa-cog">
-            </i>
-            Settings
-          </li>
-          <li>
-            <i className="fas fa-folder-open">
-            </i>
-            Commands
-          </li>
-          <li>
-            <i className="fas fa-sliders-h">
-            </i>
-            Configuration
-          </li>
-          <li>
-            <i className="fas fa-cogs">
-            </i>
-            System
-          </li>
-        </ul>
-      </div>
       <div className="content">
         <div className="header">
           <h1>
@@ -185,7 +131,7 @@ const UserList: React.FC = () => {
 
                     <button>
                       <i className="fas fa-trash" style={{ cursor: 'pointer' }}
-                        onClick={() => deleteTutorial( user.id)}
+                        onClick={() => deleteTutorial(user.id)}
 
                       ></i>
                     </button>
