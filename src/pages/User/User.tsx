@@ -3,81 +3,16 @@ import { useNavigate, useParams } from 'react-router-dom';
 import IUserlData from '../../types/User';
 import UserDataService from "../../services/UserService";
 import Sidebar from '../../components/layout/Sidebar';
+import UsersForm from '../../components/EditTodo/UserFormEdit';
 
 
 const User: React.FC = () => {
   const { id } = useParams();
-  // console.log("id",id);
-  let navigate = useNavigate();
 
-  const initialUserState = {
-    id: null,
-    email: "",
-    first_name: "",
-    last_name: "",
-    avatar: "",
-    published: false
-  };
-  const [currentUser, setCurrentUser] = useState<IUserlData>(initialUserState);
-  const [message, setMessage] = useState<string>("");
-
-  // detail
-  const getTutorial = (id: String) => {
-    UserDataService.get(id)
-      .then((response: any) => {
-        setCurrentUser(response.data.data);
-        console.log("detail", currentUser);
-      })
-      .catch((e: Error) => {
-        console.log(e);
-      });
-  };
-
-  useEffect(() => {
-    if (id)
-      getTutorial(id);
+  console.log("id",id);
 
 
-  }, [id]);
-
-  // update
-  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-    setCurrentUser({ ...currentUser, [name]: value });
-  };
-
-  const updateUser = () => {
-    UserDataService.update(currentUser.id, currentUser)
-      .then((response: any) => {
-        console.log("update", response.data);
-        setMessage("The user was updated successfully!");
-      })
-      .catch((e: Error) => {
-        console.log(e);
-      });
-  };
-
-  const updatePublished = (status: boolean) => {
-    var data = {
-      id: currentUser.id,
-      email: currentUser.email,
-      first_name: currentUser.first_name,
-      last_name: currentUser.last_name,
-      avatar: currentUser.avatar,
-      published: status
-    };
-
-    UserDataService.update(currentUser.id, data)
-      .then((response: any) => {
-        console.log("updatePublished", response.data);
-        setCurrentUser({ ...currentUser, published: status });
-        setMessage("The status was updated successfully!");
-      })
-      .catch((e: Error) => {
-        console.log(e);
-      });
-  };
-
+  // const userIdInput = 2;
 
 
   return (
@@ -104,76 +39,9 @@ const User: React.FC = () => {
 
 
 
-          {currentUser && (
-            <div>
-
-
-              <div >
-                <div className="form-group">
-                  <img src={currentUser.avatar} alt={`${currentUser.first_name} ${currentUser.last_name}`} width={100} />
-                  {/* <label >Avatar</label> */}
-                  <button type="button" className="upload-btn">Upload</button>
-                </div>
-
-
-                <div className="form-group">
-                  <label className="label-text">first_name</label>
-                  <input type="text"
-                    name="first_name"
-                    placeholder="Họ"
-                    value={currentUser.first_name}
-                    onChange={handleInputChange}
-                    required />
-                  <div className="help-text">Required. Your name</div>
-                </div>
-
-
-                <div className="form-group">
-                  <label className="label-text">last_name</label>
-                  <input type="text"
-                    name="last_name"
-                    placeholder="Tên"
-                    value={currentUser.last_name}
-                    onChange={handleInputChange}
-                    required />
-                  <div className="help-text">Required. Your name</div>
-                </div>
-                <div className="form-group">
-                  <label className="label-text">Email</label>
-                  <input type="email"
-                    name="email"
-                    placeholder="Email"
-                    value={currentUser.email}
-                    onChange={handleInputChange}
-                    required />
-                  <div className="help-text">Required. Your e-mail</div>
-                </div>
-
-                {currentUser.published ? (
-            <button
-              className="submit-btn submit-btn-cancel"
-              onClick={() => updatePublished(false)}
-            >
-              UnPublish
-            </button>
-          ) : (
-            <button
-               className="submit-btn"
-              onClick={() => updatePublished(true)}
-            >
-              Publish
-            </button>
-          )}
-
-                <button type="submit"
-                  onClick={updateUser}
-                  className="submit-btn">Update</button>
-                {/* {error && <div style={{ color: 'red' }}>Lỗi: {error}</div>}
-                {success && <div style={{ color: 'green' }}>Người dùng đã được cập nhật thành công!</div>}
-                <button type="button" className="submit-btn submit-btn-cancel" onClick={() => setIsEditing(false)}>Cancel</button> */}
-              </div>
-            </div>
-          )}
+          {/* {currentUser && ( */}
+            <UsersForm userId={2} />
+          {/* )} */}
         </div>
       </div>
 

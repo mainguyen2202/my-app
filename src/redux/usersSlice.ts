@@ -10,16 +10,20 @@ interface User {
 }
 
 interface UsersState {
-  users: User[];
+  users: User[]; // Danh sách người dùng
+  currentUser: User | null; // Người dùng hiện tại
   loading: boolean;
   error: string | null;
 }
 
 const initialState: UsersState = {
-  users: [],
+  users: [], // Khởi tạo với mảng rỗng
+  currentUser: null, // Không có người dùng hiện tại
   loading: false,
   error: null,
 };
+
+
 
 export const fetchUsers = createAsyncThunk('users/fetchUsers', async (page: number) => {
   const response = await axios.get(`https://reqres.in/api/users?page=${page}`);
@@ -41,8 +45,11 @@ export const createUser = createAsyncThunk('users/createUser', async (user: User
 // Tạo async thunk để lấy người dùng theo ID
 export const fetchUserById = createAsyncThunk('users/fetchUserById', async (id: number) => {
   const response = await axios.get(`https://reqres.in/api/users/${id}`);
+  console.log("detail thanh cong response.data.data",response.data.data);
+
   return response.data.data;
 });
+
 
 // Tạo async thunk để cập nhật người dùng
 export const updateUser = createAsyncThunk('users/updateUser', async (user: User) => {
@@ -53,7 +60,14 @@ export const updateUser = createAsyncThunk('users/updateUser', async (user: User
 const usersSlice = createSlice({
   name: 'users',
   initialState,
-  reducers: {},
+  reducers: {
+    setCurrentUser(state, action) {
+      state.currentUser = action.payload;
+    },
+    clearCurrentUser(state) {
+      state.currentUser = null;
+    },
+  },
   extraReducers: (builder) => {
     builder
       // list
@@ -75,16 +89,26 @@ const usersSlice = createSlice({
       })
 
       // UserById
-      .addCase(fetchUserById.pending, (state) => {
-        state.loading = true;
-      })
+      // .addCase(fetchUserById.pending, (state) => {
+      //   state.loading = true;
+      // })
+      // .addCase(fetchUserById.fulfilled, (state, action) => {
+      //   state.loading = false;
+      //   state.users = action.payload;
+      // })
+      // .addCase(fetchUserById.rejected, (state, action) => {
+      //   state.loading = false;
+      //   state.error = action.error.message || 'Failed to fetch user';
+      // })
+
+      // Xử lý các action khác như fetchUsers, fetchUserById...
+      // .addCase(fetchUsers.fulfilled, (state, action) => {
+      //   state.loading = false;
+      //   state.users = action.payload; // Cập nhật danh sách người dùng
+      // })
       .addCase(fetchUserById.fulfilled, (state, action) => {
         state.loading = false;
-        state.users = action.payload;
-      })
-      .addCase(fetchUserById.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.error.message || 'Failed to fetch user';
+        state.currentUser = action.payload; // Cập nhật người dùng hiện tại
       })
 
       // update
@@ -93,5 +117,5 @@ const usersSlice = createSlice({
       });
   },
 });
-
+export const { setCurrentUser, clearCurrentUser } = usersSlice.actions;
 export default usersSlice.reducer;
