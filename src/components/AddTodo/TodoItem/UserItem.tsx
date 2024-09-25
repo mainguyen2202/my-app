@@ -1,11 +1,11 @@
 import React from 'react';
 
 interface User {
-  id?: number;
+  id: number;
   email: string;
   first_name: string;
   last_name: string;
-  avatar?: string;
+  avatar: string;
 }
 
 interface UserItemProps {

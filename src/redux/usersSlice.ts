@@ -35,7 +35,19 @@ export const fetchUsers = createAsyncThunk('users/fetchUsers', async (page: numb
 // Tạo async thunk để tạo người dùng
 export const createUser = createAsyncThunk('users/createUser', async (user: User) => {
   const response = await axios.post('https://reqres.in/api/users', user);
+  return response.data;
+});
+
+// Tạo async thunk để lấy người dùng theo ID
+export const fetchUserById = createAsyncThunk('users/fetchUserById', async (id: number) => {
+  const response = await axios.get(`https://reqres.in/api/users/${id}`);
   return response.data.data;
+});
+
+// Tạo async thunk để cập nhật người dùng
+export const updateUser = createAsyncThunk('users/updateUser', async (user: User) => {
+  const response = await axios.put(`https://reqres.in/api/users/${user.id}`, user);
+  return response.data;
 });
 
 const usersSlice = createSlice({
@@ -44,7 +56,7 @@ const usersSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-    // list
+      // list
       .addCase(fetchUsers.pending, (state) => {
         state.loading = true;
       })
@@ -60,8 +72,25 @@ const usersSlice = createSlice({
       // create
       .addCase(createUser.fulfilled, (state, action) => {
         state.users.push(action.payload);
+      })
+
+      // UserById
+      .addCase(fetchUserById.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchUserById.fulfilled, (state, action) => {
+        state.loading = false;
+        state.users = action.payload;
+      })
+      .addCase(fetchUserById.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message || 'Failed to fetch user';
+      })
+
+      // update
+      .addCase(updateUser.fulfilled, (state, action) => {
+        state.users = action.payload;
       });
-      
   },
 });
 

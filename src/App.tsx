@@ -17,7 +17,7 @@ function App() {
      <BrowserRouter>
       <Routes>
         <Route path="/" element={<UserList />} />
-        {/* <Route path="/users" element={<UserList />} /> */}
+        <Route path="/users" element={<UserList />} />
         <Route path="/add" element={<AddUser />} />
         <Route path="/users/:id" element={<User />} />
       </Routes>
