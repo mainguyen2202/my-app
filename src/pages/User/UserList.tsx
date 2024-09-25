@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import IUserlData from '../../types/User';
 import UserDataService from "../../services/UserService";
 import Sidebar from '../../components/layout/Sidebar';
+import TodoList from '../../components/TodoList/TodoList';
 
 const UserList: React.FC = () => {
   const [users, setUsers] = useState<Array<IUserlData>>([]);
@@ -100,50 +101,11 @@ const UserList: React.FC = () => {
 
         </div>
         <div className="table-container">
+        <TodoList/>
+        
+             
 
-          <table>
-            <thead>
-              <tr>
-                <th>Ảnh</th>
-                <th>Email</th>
-                <th>Tên</th>
-                <th>
-                  Hành động
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredUsers.map(user => (
-                <tr key={user.id}>
-                  <td>
-                    <img src={user.avatar} alt={`${user.first_name} ${user.last_name}`} width={50} />
-                  </td>
-                  <td>{user.email}</td>
-                  <td>{user.first_name} {user.last_name}</td>
-                  <td>
-                    {/* <i className="fas fa-edit" onClick={() => history.push(`/users/${user.id}`)} style={{ cursor: 'pointer', marginRight: '10px' }}></i> */}
-
-
-                    <Link to={`/users/${user.id}`} className="badge badge-warning">
-                      <i className="fas fa-edit"></i>
-                    </Link>
-
-
-                    <button>
-                      <i className="fas fa-trash" style={{ cursor: 'pointer' }}
-                        onClick={() => deleteTutorial(user.id)}
-
-                      ></i>
-                    </button>
-
-
-
-                  </td>
-                </tr>
-              ))}
-
-            </tbody>
-          </table>
+         
         </div>
 
 

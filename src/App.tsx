@@ -6,18 +6,23 @@ import UserList from './pages/User/UserList';
 import AddUser from './pages/User/AddUser';
 import User from './pages/User/User';
 import './styles/scss/style.css';
+// import UsersList from './redux/UsersList';
+import { Provider } from 'react-redux';
+import store from './redux/store';
 
 function App() {
   return (
  
+    <Provider store={store}>
      <BrowserRouter>
       <Routes>
         <Route path="/" element={<UserList />} />
-        <Route path="/users" element={<UserList />} />
+        {/* <Route path="/users" element={<UserList />} /> */}
         <Route path="/add" element={<AddUser />} />
         <Route path="/users/:id" element={<User />} />
       </Routes>
    </BrowserRouter>
+   </Provider>
   );
 }
 
