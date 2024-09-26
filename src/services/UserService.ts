@@ -1,7 +1,7 @@
 import http from "../http-common";
 
 import User from "../types/User";
-
+// hàm riêng
 // Hàm mới để lấy danh sách người dùng theo trang
 const getAllByPage = (page: number) => {
   return http.get<Array<User>>(`/users?page=${page}`);

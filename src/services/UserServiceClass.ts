@@ -2,6 +2,7 @@
 import http from "../http-common";
 import User from "../types/User";// Import kiểu User
 
+// Phương thức lớp
 class UserService {
     // Lấy danh sách người dùng theo trang
     getUsers(page: number) {
