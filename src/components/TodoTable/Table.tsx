@@ -9,7 +9,6 @@ import { fetchUsers } from '../../redux/thunks';
 const Table: React.FC = () => {
     const dispatch = useDispatch<AppDispatch>();
     const { totalPages, loading, error } = useSelector((state: RootState) => state.users);
-    console.log("totalPages",totalPages);
 
     const [currentPage, setCurrentPage] = useState(1);
     const [searchTerm, setSearchTerm] = useState(''); // Trạng thái tìm kiếm

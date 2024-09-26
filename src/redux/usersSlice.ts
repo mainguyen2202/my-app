@@ -41,15 +41,15 @@ const usersSlice = createSlice({
         state.users.push(action.payload);
       })
       // Fetch User By ID
-      .addCase(fetchUserById.fulfilled, (state, action) => {
+       .addCase(fetchUserById.fulfilled, (state, action) => {
         state.loading = false;
-        state.currentUser = action.payload;
+        state.currentUser = action.payload.data; // Cập nhật người dùng hiện tại
       })
       // Update User
       .addCase(updateUser.fulfilled, (state, action) => {
         const index = state.users.findIndex(user => user.id === action.payload.id);
         if (index !== -1) {
-          state.users[index] = action.payload; // Cập nhật người dùng
+          state.users[index] = action.payload; 
         }
       })
       // Delete User
