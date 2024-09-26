@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { fetchUsers } from '../../redux/usersSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../redux/store';
 import TodoList from '../TodoList/TodoList';
 import Pagination from '../Pagination/Pagination';
 import SearchBar from '../FilterTodo/SearchBar';
+import { fetchUsers } from '../../redux/thunks';
 
 const Table: React.FC = () => {
     const dispatch = useDispatch<AppDispatch>();

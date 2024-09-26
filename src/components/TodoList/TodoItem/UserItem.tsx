@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { deleteUser } from '../../../redux/usersSlice';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../../redux/store';
 import User from '../../../types/User';
+import { deleteUser } from '../../../redux/thunks';
 
 
 

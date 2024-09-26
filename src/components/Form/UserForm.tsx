@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../redux/store';
-import { createUser, fetchUserById, updateUser } from '../../redux/usersSlice';
+import { createUser, fetchUserById, updateUser } from '../../redux/thunks';
 
 interface UserFormProps {
   userId?: number; // userId là optional để có thể sử dụng cho cả thêm và sửa

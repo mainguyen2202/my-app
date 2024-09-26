@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchUsers } from '../../redux/usersSlice';
 import UserItem from './TodoItem/UserItem';
 import { AppDispatch, RootState } from '../../redux/store';
+import { fetchUsers } from '../../redux/thunks';
 
 interface TodoListProps {
     page: number; // Nhận prop page
