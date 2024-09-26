@@ -26,6 +26,7 @@ const UserForm: React.FC<UserFormProps> = ({ userId }) => {
   useEffect(() => {
     if (userId) {
       dispatch(fetchUserById(userId));
+      console.log("Get thành công",userId);
     } else {
       resetForm();
     }

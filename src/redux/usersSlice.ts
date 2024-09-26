@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction, AnyAction } from '@reduxjs/toolkit';
 import { initialState } from '../types/type';
 import {
   fetchUsers,
@@ -7,55 +7,83 @@ import {
   updateUser,
   deleteUser,
 } from './thunks';
+import { User } from '../types/type'; // Ensure that User type is imported
 
+// Define the state type
+type UsersState = typeof initialState;
+
+const handleFetchUsersPending = (state: UsersState) => {
+  state.loading = true;
+  state.error = null;
+};
+
+const handleFetchUsersFulfilled = (
+  state: UsersState,
+  action: PayloadAction<{
+    data: User[],
+    total_pages: number
+  }>) => {
+  state.loading = false;
+  state.users = action.payload.data; // Store the list of users
+  state.totalPages = action.payload.total_pages; // Update totalPages
+};
+
+const handleFetchUsersRejected = (state: UsersState, action: AnyAction) => {
+  state.loading = false;
+  // Access the error message from `action.error`
+  state.error = action.error?.message || 'Failed to fetch users';
+};
+
+
+
+const handleCreateUserFulfilled = (state: UsersState, action: PayloadAction<User>) => {
+  state.users.push(action.payload);
+};
+
+// ByIdUser
+const handleFetchUserByIdFulfilled = (state: UsersState, action: PayloadAction<{ data: User }>) => {
+  state.loading = false;
+  state.currentUser = action.payload.data; // Update current user
+};
+
+// const handleFetchUserByIdFulfilled = (state: UsersState, action: PayloadAction<User>) => {
+//   state.loading = false;
+//   state.currentUser = action.payload; // Update current user
+// };
+
+
+const handleUpdateUserFulfilled = (state: UsersState, action: PayloadAction<User>) => {
+  const index = state.users.findIndex(user => user.id === action.payload.id);
+  if (index !== -1) {
+    state.users[index] = action.payload;
+  }
+};
+
+const handleDeleteUserFulfilled = (state: UsersState, action: PayloadAction<number>) => {
+  state.users = state.users.filter(user => user.id !== action.payload);
+};
 
 const usersSlice = createSlice({
   name: 'users',
   initialState,
   reducers: {
-    setCurrentUser(state, action) {
+    setCurrentUser(state: UsersState, action: PayloadAction<User | null>) {
       state.currentUser = action.payload;
     },
-    clearCurrentUser(state) {
+    clearCurrentUser(state: UsersState) {
       state.currentUser = null;
     },
   },
   extraReducers: (builder) => {
     builder
-      // Fetch Users
-      .addCase(fetchUsers.pending, (state) => {
-        state.loading = true; // Khi bắt đầu fetch, set loading thành true
-        state.error = null;  // Reset lỗi
-      })
-      .addCase(fetchUsers.fulfilled, (state, action) => {
-        state.loading = false;  // Khi fetch thành công, set loading thành false
-        state.users = action.payload.data; // Lưu danh sách người dùng
-        state.totalPages = action.payload.total_pages; // Cập nhật totalPages
-      })
-      .addCase(fetchUsers.rejected, (state, action) => {
-        state.loading = false; // Khi fetch thất bại, set loading thành false
-        state.error = action.error.message || 'Failed to fetch users'; // Cập nhật lỗi
-      })
-      // Create User
-      .addCase(createUser.fulfilled, (state, action) => {
-        state.users.push(action.payload);
-      })
-      // Fetch User By ID
-       .addCase(fetchUserById.fulfilled, (state, action) => {
-        state.loading = false;
-        state.currentUser = action.payload.data; // Cập nhật người dùng hiện tại
-      })
-      // Update User
-      .addCase(updateUser.fulfilled, (state, action) => {
-        const index = state.users.findIndex(user => user.id === action.payload.id);
-        if (index !== -1) {
-          state.users[index] = action.payload; 
-        }
-      })
-      // Delete User
-      .addCase(deleteUser.fulfilled, (state, action) => {
-        state.users = state.users.filter(user => user.id !== action.payload);
-      });
+      .addCase(fetchUsers.pending, handleFetchUsersPending)
+      .addCase(fetchUsers.fulfilled, handleFetchUsersFulfilled)
+      .addCase(fetchUsers.rejected, handleFetchUsersRejected)
+      
+      .addCase(createUser.fulfilled, handleCreateUserFulfilled)
+      .addCase(fetchUserById.fulfilled, handleFetchUserByIdFulfilled)
+      .addCase(updateUser.fulfilled, handleUpdateUserFulfilled)
+      .addCase(deleteUser.fulfilled, handleDeleteUserFulfilled);
   },
 });
 

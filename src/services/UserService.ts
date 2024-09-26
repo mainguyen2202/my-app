@@ -1,6 +1,5 @@
 import http from "../http-common";
-
-import User from "../types/User";
+import { User } from "../types/type";
 // hàm riêng
 // Hàm mới để lấy danh sách người dùng theo trang
 const getAllByPage = (page: number) => {
