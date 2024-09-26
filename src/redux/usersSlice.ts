@@ -1,6 +1,8 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
+
+// Định nghĩa kiểu User
 interface User {
   id: number;
   email: string;
@@ -9,26 +11,43 @@ interface User {
   avatar: string;
 }
 
+// Định nghĩa kiểu cho state
 interface UsersState {
   users: User[]; // Danh sách người dùng
   currentUser: User | null; // Người dùng hiện tại
   loading: boolean;
   error: string | null;
+
+  totalPages: number; // Thêm trường totalPages
 }
 
+// Khởi tạo state ban đầu
 const initialState: UsersState = {
   users: [], // Khởi tạo với mảng rỗng
   currentUser: null, // Không có người dùng hiện tại
   loading: false,
   error: null,
+  totalPages: 0, // Khởi tạo với 0
 };
 
+// Tạo async thunk để lấy danh sách người dùng theo trang
+// export const fetchUsers = createAsyncThunk('users/fetchUsers', async (page: number) => {
+//   const response = await axios.get(`https://reqres.in/api/users?page=${page}`);
+//   return response.data.data;
+// });
 
 
-export const fetchUsers = createAsyncThunk('users/fetchUsers', async (page: number) => {
-  const response = await axios.get(`https://reqres.in/api/users?page=${page}`);
-  return response.data.data;
-});
+export const fetchUsers = createAsyncThunk(
+  'users/fetchUsers',
+  async (page: number) => {
+    const response = await axios.get(`https://reqres.in/api/users?page=${page}`);
+    console.log("response.data page", response.data)
+    return response.data; // Trả về toàn bộ dữ liệu từ API
+  }
+);
+
+
+// ----------
 
 // Tạo async thunk để lấy danh sách người dùng
 // export const fetchUsers = createAsyncThunk('users/fetchUsers', async () => {
@@ -45,7 +64,7 @@ export const createUser = createAsyncThunk('users/createUser', async (user: User
 // Tạo async thunk để lấy người dùng theo ID
 export const fetchUserById = createAsyncThunk('users/fetchUserById', async (id: number) => {
   const response = await axios.get(`https://reqres.in/api/users/${id}`);
-  console.log("detail thanh cong response.data.data",response.data.data);
+  console.log("detail thanh cong response.data.data", response.data.data);
 
   return response.data.data;
 });
@@ -72,16 +91,24 @@ const usersSlice = createSlice({
     builder
       // list
       .addCase(fetchUsers.pending, (state) => {
-        state.loading = true;
+        state.loading = true; // Khi bắt đầu fetch, set loading thành true
+        state.error = null; // Reset lỗi
       })
       .addCase(fetchUsers.fulfilled, (state, action) => {
-        state.loading = false;
-        state.users = action.payload;
+        state.loading = false; // Khi fetch thành công, set loading thành false
+        state.users = action.payload.data; // Lưu danh sách người dùng
+        state.totalPages = action.payload.total_pages; // Cập nhật totalPages
       })
       .addCase(fetchUsers.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.error.message || 'Failed to fetch users';
+        state.loading = false; // Khi fetch thất bại, set loading thành false
+        state.error = action.error.message || 'Failed to fetch users'; // Cập nhật lỗi
       })
+
+    
+
+
+
+
 
       // create
       .addCase(createUser.fulfilled, (state, action) => {

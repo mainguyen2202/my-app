@@ -4,34 +4,49 @@ import { fetchUsers } from '../../redux/usersSlice';
 import UserItem from './TodoItem/UserItem';
 import { AppDispatch, RootState } from '../../redux/store';
 
+interface TodoListProps {
+    page: number; // Nhận prop page
+}
 
-const TodoList: React.FC = () => {
-    const dispatch = useDispatch<AppDispatch>(); // Sử dụng kiểu AppDispatch
+const TodoList: React.FC<TodoListProps> = ({ page }) => {
+    const dispatch = useDispatch<AppDispatch>();
     const { users, loading, error } = useSelector((state: RootState) => state.users);
 
     useEffect(() => {
-        dispatch(fetchUsers(2)); // Lấy danh sách users từ page 2
-        console.log("đata", users);
-    }, [dispatch]);
+
+        dispatch(fetchUsers(page)); // Gọi API để lấy người dùng từ trang hiện tại
+    }, [dispatch, page]);
+
+
 
     return (
-        <table>
-            <thead>
-                <tr>
-                    <th>Ảnh</th>
-                    <th>Email</th>
-                    <th>Tên</th>
-                    <th>
-                        Hành động
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                {users.map(user => (
-                    <UserItem key={user.id} user={user} />
-                ))}
-            </tbody>
-        </table>
+
+        <div className="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Ảnh</th>
+                        <th>Email</th>
+                        <th>Tên</th>
+                        <th>Hành động</th>
+                    </tr>
+                </thead>
+                <tbody>
+                        {users.length > 0 ? (
+                            users.map(user => (
+                                <UserItem key={user.id} user={user} />
+                            ))
+                        ) : (
+                            <tr>
+                                <td colSpan={4} style={{ textAlign: 'center' }}>Không có người dùng nào.</td>
+                            </tr>
+                        )}
+                    </tbody>
+
+        
+            </table>
+        </div>
+
     );
 };
 
