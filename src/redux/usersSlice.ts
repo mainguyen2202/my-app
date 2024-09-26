@@ -41,7 +41,6 @@ export const fetchUsers = createAsyncThunk(
   'users/fetchUsers',
   async (page: number) => {
     const response = await axios.get(`https://reqres.in/api/users?page=${page}`);
-    console.log("response.data page", response.data)
     return response.data; // Trả về toàn bộ dữ liệu từ API
   }
 );
@@ -76,6 +75,12 @@ export const updateUser = createAsyncThunk('users/updateUser', async (user: User
   return response.data;
 });
 
+// Tạo async thunk để xóa người dùng
+export const deleteUser = createAsyncThunk('users/deleteUser', async (id: number) => {
+  await axios.delete(`https://reqres.in/api/users/${id}`);
+  return id; // Trả về ID để xóa
+});
+
 const usersSlice = createSlice({
   name: 'users',
   initialState,
@@ -103,12 +108,6 @@ const usersSlice = createSlice({
         state.loading = false; // Khi fetch thất bại, set loading thành false
         state.error = action.error.message || 'Failed to fetch users'; // Cập nhật lỗi
       })
-
-    
-
-
-
-
 
       // create
       .addCase(createUser.fulfilled, (state, action) => {
@@ -141,6 +140,12 @@ const usersSlice = createSlice({
       // update
       .addCase(updateUser.fulfilled, (state, action) => {
         state.users = action.payload;
+      })
+
+      // delete
+
+      .addCase(deleteUser.fulfilled, (state, action) => {
+        state.users = state.users.filter(user => user.id !== action.payload);
       });
   },
 });

@@ -6,9 +6,10 @@ import { AppDispatch, RootState } from '../../redux/store';
 
 interface TodoListProps {
     page: number; // Nhận prop page
+    searchTerm: string; // Nhận prop searchTerm
 }
 
-const TodoList: React.FC<TodoListProps> = ({ page }) => {
+const TodoList: React.FC<TodoListProps> = ({ page, searchTerm  }) => {
     const dispatch = useDispatch<AppDispatch>();
     const { users, loading, error } = useSelector((state: RootState) => state.users);
 
@@ -18,6 +19,10 @@ const TodoList: React.FC<TodoListProps> = ({ page }) => {
     }, [dispatch, page]);
 
 
+    const filteredUsers = users.filter(user =>
+        user.first_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        user.email.toLowerCase().includes(searchTerm.toLowerCase())
+    );
 
     return (
 
@@ -33,7 +38,7 @@ const TodoList: React.FC<TodoListProps> = ({ page }) => {
                 </thead>
                 <tbody>
                         {users.length > 0 ? (
-                            users.map(user => (
+                            filteredUsers.map(user => (
                                 <UserItem key={user.id} user={user} />
                             ))
                         ) : (

@@ -1,18 +1,25 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import { deleteUser } from '../../../redux/usersSlice';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../../../redux/store';
+import User from '../../../types/User';
 
-interface User {
-  id: number;
-  email: string;
-  first_name: string;
-  last_name: string;
-  avatar: string;
-}
+
 
 interface UserItemProps {
   user: User;
 }
 
 const UserItem: React.FC<UserItemProps> = ({ user }) => {
+  const dispatch = useDispatch<AppDispatch>(); // Sử dụng kiểu AppDispatch
+
+
+  const handleDelete = (id: number) => {
+    dispatch(deleteUser(id));
+  };
+
+
   return (
 
     <tr key={user.id}>
@@ -23,17 +30,19 @@ const UserItem: React.FC<UserItemProps> = ({ user }) => {
       <td>{user.first_name} {user.last_name}</td>
       <td>
 
-      {/* <Link to={`/users/${user.id}`} className="badge badge-warning">
-                      <i className="fas fa-edit"></i>
-                    </Link>
+        <Link to={`/users/${user.id}`} className="badge badge-warning">
+          <i className="fas fa-edit"></i>
+        </Link>
 
 
-                    <button>
-                      <i className="fas fa-trash" style={{ cursor: 'pointer' }}
-                        onClick={() => deleteTutorial(user.id)}
+        <button>
+          <i className="fas fa-trash" style={{ cursor: 'pointer' }}
+            onClick={() => handleDelete(user.id)}
 
-                      ></i>
-                    </button> */}
+          ></i>
+        </button>
+
+
       </td>
     </tr>
 
