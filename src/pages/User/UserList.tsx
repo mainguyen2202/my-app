@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
-import Sidebar from '../../components/Layout/Sidebar';
-import Header from '../../components/Layout/Header';
+import Sidebar from '../../components/Layouts/Sidebar';
+import Header from '../../components/Layouts/Header';
 import TodoTable from '../../components/TodoTable/Table';
 
 const UserList: React.FC = () => {
