@@ -1,23 +1,19 @@
-import React from 'react';
-import logo from './logo.svg';
 import './App.css';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import UserList from './pages/User/UserList';
-import AddUser from './pages/User/AddUser';
-import User from './pages/User/User';
+import { BrowserRouter } from 'react-router-dom';
 import './styles/scss/style.css';
+import { Provider } from 'react-redux';
+import store from './redux/store';
+import AppRoutes from './routes/AppRoutes';
+
 
 function App() {
   return (
- 
-     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<UserList />} />
-        <Route path="/users" element={<UserList />} />
-        <Route path="/add" element={<AddUser />} />
-        <Route path="/users/:id" element={<User />} />
-      </Routes>
-   </BrowserRouter>
+
+    <Provider store={store}>
+      <BrowserRouter>
+      <AppRoutes />
+      </BrowserRouter>
+    </Provider>
   );
 }
 

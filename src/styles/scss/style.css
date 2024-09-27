@@ -8,22 +8,20 @@ body {
 
 .container {
   width: 100%;
-  margin: 50px auto;
+  margin: auto;
   background-color: #f9f9f9;
-  padding: 20px;
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  display: flex;
 }
 
 .sidebar {
   background-color: #1a2a4e;
-  height: 100vh;
-  position: fixed;
   top: 0;
   left: 0;
   color: #f9f9f9;
   padding-top: 20px;
-  flex: 3;
+  flex: 2;
   /* Chiếm 3 phần */
   padding: 20px;
   /* Khoảng cách bên trong */
@@ -47,16 +45,28 @@ body {
 .sidebar ul li i {
   margin-right: 10px;
 }
+.sidebar .close-btn {
+  background: none;
+  border: none;
+  font-size: 30px;
+  cursor: pointer;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+.sidebar .close-btn:focus {
+  outline: none; /* Xóa outline khi nút được chọn */
+}
 
 .content {
-  flex: 9;
+  flex: 10;
   /* Chiếm 9 phần */
   /* background-color: #ffffff; */
   /* Màu nền cho content */
   padding: 20px;
   /* Khoảng cách bên trong */
-  margin-left: 250px;
   padding: 20px;
+  background-color: #f9f9f9;
 }
 
 .header {
@@ -181,28 +191,32 @@ table .fa-edit {
   border-radius: 5px;
 }
 
-.form-group {
+.form {
+  padding: 20px;
+}
+.form .form-group {
   margin-bottom: 20px;
 }
-.form-group label {
+.form .form-group label {
   display: block;
   font-weight: bold;
   margin-bottom: 5px;
 }
-.form-group input[type=text],
-.form-group input[type=email] {
+.form .form-group input[type=text],
+.form .form-group input[type=email] {
   width: 100%;
   padding: 10px;
   border: 1px solid #ced4da;
   border-radius: 4px;
   font-size: 1rem;
 }
-.form-group .help-text {
+.form .form-group .help-text {
   font-size: 0.875rem;
   color: #6c757d;
   margin-top: 5px;
 }
-.form-group .upload-btn {
+.form .form-group .upload-btn {
+  margin-top: 10px;
   background-color: #007bff;
   color: #f9f9f9;
   padding: 10px 20px;
@@ -211,8 +225,16 @@ table .fa-edit {
   cursor: pointer;
   font-size: 1rem;
 }
-.form-group .upload-btn:hover {
+.form .form-group .upload-btn:hover {
   background-color: rgb(0, 98.4, 204);
+}
+.form .form-group .error-text {
+  color: #ce0404;
+  /* Đặt màu chữ là đỏ */
+  font-size: 0.875em;
+  /* Có thể điều chỉnh kích thước chữ */
+  margin-top: 4px;
+  /* Khoảng cách phía trên */
 }
 
 .submit-btn {
@@ -244,11 +266,37 @@ table .fa-edit {
 
 /* Responsive Styles */
 @media (max-width: 767px) {
+  .hamburger {
+    font-size: 30px;
+    cursor: pointer;
+    padding: 10px;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+  }
   .sidebar {
-    position: relative;
-    height: auto;
-    width: 100%;
-    display: block;
+    width: 250px;
+    height: 100vh;
+    position: fixed;
+    left: -250px; /* Ẩn sidebar */
+    transition: left 0.3s;
+    padding: 20px;
+  }
+  .sidebar.active {
+    left: 0; /* Hiện sidebar */
+  }
+  .sidebar h2 {
+    margin: 0 0 20px;
+  }
+  .sidebar ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  .sidebar ul li {
+    padding: 10px 0;
+  }
+  .sidebar ul li i {
+    margin-right: 10px;
   }
   .content {
     margin-left: 0;
@@ -268,7 +316,7 @@ table .fa-edit {
   th,
   td,
   tr {
-    display: block;
+    display: inline-masonry;
   }
   thead tr {
     position: absolute;
@@ -297,8 +345,10 @@ table .fa-edit {
   .sidebar {
     width: 200px;
   }
+  .hamburger {
+    display: none; /* Ẩn hamburger */
+  }
   .content {
-    margin-left: 200px;
     padding: 15px;
   }
   .header {
@@ -309,8 +359,10 @@ table .fa-edit {
   .sidebar {
     width: 250px;
   }
+  .hamburger {
+    display: none; /* Ẩn hamburger */
+  }
   .content {
-    margin-left: 250px;
     padding: 20px;
   }
 }
