@@ -83,7 +83,7 @@ const UserForm: React.FC<UserFormProps> = ({ userId }) => {
   };
 
   return (
-    <div>
+    <div className='form' >
       <ToastContainer />
       {loading && <p>Loading...</p>}
       {error && <p>{error}</p>}
