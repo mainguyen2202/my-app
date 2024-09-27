@@ -1,3 +1,66 @@
+# React + Typescript + Redux toolkit Thunk + SCSS
+# Dự Án Quản Lý Người Dùng
+
+## Giới Thiệu
+Dự án này là một ứng dụng quản lý người dùng được xây dựng bằng React, TypeScript, Redux Toolkit với Thunk, và SCSS. Ứng dụng cho phép tạo người dùng mới, hiển thị danh sách người dùng, và hỗ trợ phân trang và tìm kiếm.
+
+## Yêu Cầu Chức Năng
+
+### 1. Tạo Người Dùng
+- Tạo một form để nhập thông tin người dùng mới.
+- Sử dụng yêu cầu POST đến endpoint `/api/users`.
+- Hiển thị thông báo thành công khi người dùng được tạo thành công.
+- Xử lý và hiển thị thông báo lỗi khi yêu cầu không thành công.
+
+### 2. Danh Sách Người Dùng
+- Fetch và hiển thị danh sách người dùng từ API.
+- Sử dụng yêu cầu GET đến endpoint `/api/users`.
+- Hiển thị avatar, tên, họ và email của người dùng.
+
+### 3. Phân Trang
+- Implement phân trang cho danh sách người dùng.
+- Sử dụng tham số truy vấn `?page=2` để phân trang.
+- Hiển thị số trang hiện tại và tổng số trang.
+- Thêm nút điều hướng để chuyển đến trang tiếp theo và trang trước.
+
+### 4. Lọc
+- Thêm input tìm kiếm để lọc người dùng theo tên hoặc email.
+- Thực hiện lọc phía client (vì API ReqRes không hỗ trợ lọc phía server).
+- Cập nhật danh sách người dùng hiển thị theo thời gian thực khi người dùng gõ vào ô tìm kiếm.
+
+### 5. Tính Năng Bổ Sung (Tùy Chọn)
+- Implement xem chi tiết người dùng.
+- Thêm chức năng cập nhật người dùng.
+- Implement xóa người dùng.
+
+## Cấu Trúc Dự Án
+
+- **components**: Chứa các component chung sử dụng trong ứng dụng.
+- **pages**: Chứa các trang khác nhau của ứng dụng.
+- **redux**: Chứa các slice và cấu hình store cho Redux.
+- **routes**: Cấu hình các route và điều hướng của ứng dụng.
+- **services**: Các dịch vụ để tương tác với API.
+- **styles**: Chứa các tệp SCSS cho phong cách của ứng dụng.
+- **types**: Chứa các kiểu TypeScript để quản lý kiểu dữ liệu.
+
+## Hướng Dẫn Cài Đặt và Chạy Ứng Dụng
+
+1. **Clone Repository**
+   git clone https://github.com/mainguyen2202/my-app.git
+
+2. **Cài Đặt Dependencies**
+    npm install
+
+3. **Chạy ứng dụng**
+    npm start
+
+## Công Nghệ Sử Dụng
+- React: Thư viện JavaScript cho giao diện người dùng.
+- TypeScript: Ngôn ngữ lập trình để tăng cường khả năng bảo trì.
+- Redux Toolkit: Thư viện quản lý trạng thái.
+- Thunk: Middleware cho Redux để xử lý các tác vụ bất đồng bộ.
+- SCSS: Tiền xử lý CSS để quản lý phong cách dễ dàng hơn.
+
 # scss
 sass ./scss/styleSCSS.scss ./scss/styleCSS.css
 
