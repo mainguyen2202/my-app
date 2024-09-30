@@ -20,28 +20,29 @@ body {
 }
 
 .sidebar {
-    background-color: $sidebar-bg;
-    // height: 100vh;
-    // position: fixed;
-    top: 0;
-    left: 0;
-    color: $table-bg;
-    padding-top: 20px;
-    flex: 2;
-    /* Chiếm 3 phần */
-    padding: 20px;
-    /* Khoảng cách bên trong */
 
-    h2 {
+    &__container {
+        background-color: $sidebar-bg;
+        top: 0;
+        left: 0;
+        color: $table-bg;
+        padding-top: 20px;
+        flex: 2;
+        /* Chiếm 3 phần */
+        padding: 20px;
+        /* Khoảng cách bên trong */
+    }
+
+    &__title {
         text-align: center;
         margin-bottom: 30px;
     }
 
-    ul {
+    &__list {
         list-style-type: none;
         padding: 0;
 
-        li {
+        &-item {
             padding: 15px 20px;
             cursor: pointer;
             text-align: left;
@@ -50,12 +51,15 @@ body {
                 background-color: darken($sidebar-bg, 10%);
             }
 
-            i {
-                margin-right: 10px;
-            }
+          
         }
+       
     }
-    .close-btn {
+    &__icon {
+        margin-right: 10px;
+    }
+
+    &__close-btn {
         background: none;
         border: none;
         font-size: 30px;
@@ -63,12 +67,14 @@ body {
         position: absolute;
         top: 20px;
         right: 20px;
-    }
-    
-    .close-btn:focus {
-        outline: none; /* Xóa outline khi nút được chọn */
+
+        &:focus {
+            outline: none;
+            /* Xóa outline khi nút được chọn */
+        }
     }
 }
+
 
 .content {
     flex: 10;
@@ -80,44 +86,105 @@ body {
     // margin-left: 250px;
     padding: 20px;
     background-color: $table-bg;
-}
 
-.header {
-    @include flex-center-center;
-    justify-content: space-between;
-    padding: 20px;
-    background-color: $background-color;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    .header {
+        @include flex-center-center;
+        justify-content: space-between;
+        padding: 20px;
+        background-color: $background-color;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
-    h1 {
-        margin: 0;
-        font-size: 24px;
-        color: $text-color;
-    }
+        &__title {
+            margin: 0;
+            font-size: 24px;
+            color: $text-color;
+        }
 
-    .user-info {
-        @include flex-center;
+        &__user-info {
+            @include flex-center;
+        }
 
-        img {
+        &__user-image {
             border-radius: 50%;
             width: 40px;
             height: 40px;
             margin-right: 10px;
         }
 
-        .name {
+        &__user-name {
             margin-right: 10px;
             color: gray;
         }
+
+        &__user-role {
+            color: gray; // Thêm nếu bạn muốn định nghĩa cho vai trò
+        }
+
     }
+
+
+
+    .form {
+        padding: 20px;
+
+        &__group {
+            margin-bottom: 20px;
+        }
+
+        &__label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        &__input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid $border-input-color;
+            border-radius: 4px;
+            font-size: 1rem;
+
+            &[type="text"],
+            &[type="email"] {}
+        }
+
+
+        &__upload-btn {
+            margin-top: 10px;
+            @include button-style($primary-color, $table-bg);
+        }
+
+        &__error-text {
+            color: $error-color;
+            /* Đặt màu chữ là đỏ */
+            font-size: 0.875em;
+            /* Có thể điều chỉnh kích thước chữ */
+            margin-top: 4px;
+            /* Khoảng cách phía trên */
+        }
+
+        &__submit-btn {
+            @include button-style($success-color, $table-bg);
+            margin-right: 2px;
+        }
+    }
+
 }
 
 
-.search-bar {
-    @include flex-center;
-    margin-top: 20px;
 
-    input {
+
+
+
+.user-management {
+
+    // search
+    &__search-bar {
+        @include flex-center;
+        margin-top: 20px;
+    }
+
+    &__search-input {
         padding: 10px;
         border: 1px solid $border-color;
         border-radius: 5px;
@@ -126,188 +193,195 @@ body {
         color: $text-color;
     }
 
-    .notifications {
+    &__notifications {
         margin-right: 10px;
         color: $text-color;
     }
 
-    .new-user {
+    &__new-user {
         @include button-style($primary-color, $table-bg);
     }
-}
 
-.table-container {
-    margin-top: 20px;
-    background-color: $background-color;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-
-    th,
-    td {
-        padding: 15px;
-        text-align: left;
-        color: $text-color;
-        border: 1px solid $border-color;
-    }
-
-    th {
+    // table
+    &__table-container {
+        margin-top: 20px;
         background-color: $background-color;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
     }
 
-    tr:nth-child(even) {
-        background-color: $table-bg;
+
+    &__table {
+        width: 100%;
+        border-collapse: collapse;
+        th,
+        td {
+            padding: 15px;
+            text-align: left;
+            color: $text-color;
+            border: 1px solid $border-color;
+        }
+    
+        th {
+            background-color: $background-color;
+        }
+    
+        tr:nth-child(even) {
+            background-color: $table-bg;
+        }
     }
 
-    .fa-trash {
-        color: $error-color;
+
+
+    &__avatar {
+        width: 50px; // Thêm chiều rộng cho ảnh
     }
 
-    .fa-edit {
+    &__email {
+        // Có thể thêm các thuộc tính riêng nếu cần
+    }
+
+    &__name {
+        // Có thể thêm các thuộc tính riêng nếu cần
+    }
+
+    &__actions {
+        // Có thể thêm các thuộc tính riêng nếu cần
+    }
+
+    &__edit-btn {
         color: $primary-color;
+
+        &:hover {
+            opacity: 0.8; // Hiệu ứng hover cho nút chỉnh sửa
+        }
     }
-}
+
+    &__delete-btn {
+        color: $error-color;
+
+        &:hover {
+            opacity: 0.8; // Hiệu ứng hover cho nút xóa
+        }
+    }
 
 
 
-.pagination {
-    @include flex-between-center;
+    // pagination
 
-    padding: 20px;
+    &__pagination {
+        @include flex-between-center;
+        padding: 20px;
+    }
 
-    .showing {
+    &__showing {
         display: flex;
         align-items: center;
         color: $text-color;
 
-        select {
-            margin-left: 10px;
-            padding: 5px;
-        }
+
     }
 
-    .pages {
+    &__select-option {
+        margin-left: 10px;
+        padding: 5px;
+
+    }
+
+    &__pages {
         @include flex-center;
 
-        button {
-            padding: 10px;
-            border: none;
-            background-color: $background-color;
-            cursor: pointer;
-            margin: 0 5px;
-
-            &.active {
-                background-color: $primary-color;
-                color: $table-bg;
-                border-radius: 5px;
-            }
-        }
     }
-}
 
-.form {
-    padding: 20px;
+    &__btn {
+        padding: 10px;
+        border: none;
+        background-color: $background-color;
+        cursor: pointer;
+        margin: 0 5px;
 
-    .form-group {
-        margin-bottom: 20px;
-
-        label {
-            display: block;
-            font-weight: bold;
-            margin-bottom: 5px;
+        &--active {
+            background-color: $primary-color;
+            color: $table-bg;
+            border-radius: 5px;
         }
 
-        input[type="text"],
-        input[type="email"] {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid $border-input-color;
-            border-radius: 4px;
-            font-size: 1rem;
-        }
-
-        .help-text {
-            font-size: 0.875rem;
-            color: $border-help-text-color;
-            margin-top: 5px;
-        }
-
-        .upload-btn {
-            margin-top: 10px;
-            @include button-style($primary-color, $table-bg);
-        }
-
-        .error-text {
-            color: $error-color;
-            /* Đặt màu chữ là đỏ */
-            font-size: 0.875em;
-            /* Có thể điều chỉnh kích thước chữ */
-            margin-top: 4px;
-            /* Khoảng cách phía trên */
-        }
     }
-}
 
 
-.submit-btn {
-    @include button-style($success-color, $table-bg);
-    margin-right: 2px;
-}
-
-.submit-btn-cancel {
-    @include button-style($error-color, $table-bg);
 }
 
 /* Responsive Styles */
 @media (max-width: 767px) {
-    
-
-.hamburger {
-    font-size: 30px;
-    cursor: pointer;
-    padding: 10px;
-    position: absolute;
-    top: 10px;
-    left: 10px;
-}
-
-.sidebar {
-    width: 250px;
-    height: 100vh;
-    position: fixed;
-    left: -250px; /* Ẩn sidebar */
-    transition: left 0.3s;
-    padding: 20px;
-}
-
-.sidebar.active {
-    left: 0; /* Hiện sidebar */
-}
-
-.sidebar h2 {
-    margin: 0 0 20px;
-}
-
-.sidebar ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-.sidebar ul li {
-    padding: 10px 0;
-}
-
-.sidebar ul li i {
-    margin-right: 10px;
-}
+    .sidebar {
 
 
+        &__hamburger {
+            font-size: 30px;
+            cursor: pointer;
+            padding: 10px;
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
 
-    // con
+        &__container {
+            /* Thêm các thuộc tính cần thiết cho container */
+            width: 250px;
+            height: 100vh;
+            position: fixed;
+            left: -250px;
+            /* Ẩn sidebar */
+            transition: left 0.3s;
+            padding: 20px;
+
+            &--active {
+                left: 0;
+                /* Hiện sidebar */
+            }
+        }
+
+       
+
+        &__title {
+            margin: 0 0 20px;
+        }
+
+        &__list {
+            list-style-type: none;
+            padding: 0;
+
+            &__list-item {
+                padding: 10px 0;
+                cursor: pointer;
+
+                &__icon {
+                    margin-right: 10px;
+                }
+
+                &:hover {
+                    background-color: darken($sidebar-bg, 10%);
+                }
+            }
+        }
+
+        &__close-btn {
+            background: none;
+            border: none;
+            font-size: 30px;
+            cursor: pointer;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+
+            &:focus {
+                outline: none;
+                /* Xóa outline khi nút được chọn */
+            }
+        }
+    }
+
 
 
     .content {
@@ -320,9 +394,11 @@ table {
         align-items: flex-start;
     }
 
-    .search-bar input {
-        width: 100%;
-        margin-bottom: 10px;
+    .search-bar {
+        input {
+            width: 100%;
+            margin-bottom: 10px;
+        }
     }
 
     @include table-responsive;
@@ -331,28 +407,38 @@ table {
 @media (min-width: 768px) and (max-width: 1199px) {
     .sidebar {
         width: 200px;
+
+        &__hamburger {
+            display: none;
+            /* Ẩn hamburger */
+        }
     }
-    .hamburger {
-        display: none; /* Ẩn hamburger */
-    }
+
+
 
     .content {
         // margin-left: 200px;
         padding: 15px;
+
+        .header {
+            padding: 15px;
+        }
     }
 
-    .header {
-        padding: 15px;
-    }
+
 }
 
 @media (min-width: 1200px) {
     .sidebar {
         width: 250px;
+
+        &__hamburger {
+            display: none;
+            /* Ẩn hamburger */
+        }
     }
-    .hamburger {
-        display: none; /* Ẩn hamburger */
-    }
+
+
 
     .content {
         // margin-left: 250px;

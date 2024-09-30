@@ -107,7 +107,7 @@ const UserForm: React.FC<UserFormProps> = ({ userId }) => {
         onChange={(e) => setEmail(e.target.value)}
         error={errors.email}
       />
-      <button onClick={handleSubmit} className="btn submit-btn">
+      <button onClick={handleSubmit}   className="form__submit-btn">
         Submit
       </button>
     </div>
