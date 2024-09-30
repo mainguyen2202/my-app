@@ -23,7 +23,7 @@ const Table: React.FC = () => {
  
 
     return (
-        <div>
+        <div className="user-management">
              <SearchBar 
                 searchTerm={searchTerm} 
                 onSearchChange={handleSearchChange} 

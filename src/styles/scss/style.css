@@ -15,7 +15,7 @@ body {
   display: flex;
 }
 
-.sidebar {
+.sidebar__container {
   background-color: #1a2a4e;
   top: 0;
   left: 0;
@@ -26,26 +26,26 @@ body {
   padding: 20px;
   /* Khoảng cách bên trong */
 }
-.sidebar h2 {
+.sidebar__title {
   text-align: center;
   margin-bottom: 30px;
 }
-.sidebar ul {
+.sidebar__list {
   list-style-type: none;
   padding: 0;
 }
-.sidebar ul li {
+.sidebar__list-item {
   padding: 15px 20px;
   cursor: pointer;
   text-align: left;
 }
-.sidebar ul li:hover {
+.sidebar__list-item:hover {
   background-color: rgb(13.25, 21.4038461538, 39.75);
 }
-.sidebar ul li i {
+.sidebar__icon {
   margin-right: 10px;
 }
-.sidebar .close-btn {
+.sidebar__close-btn {
   background: none;
   border: none;
   font-size: 30px;
@@ -54,8 +54,9 @@ body {
   top: 20px;
   right: 20px;
 }
-.sidebar .close-btn:focus {
-  outline: none; /* Xóa outline khi nút được chọn */
+.sidebar__close-btn:focus {
+  outline: none;
+  /* Xóa outline khi nút được chọn */
 }
 
 .content {
@@ -68,8 +69,7 @@ body {
   padding: 20px;
   background-color: #f9f9f9;
 }
-
-.header {
+.content .header {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -78,144 +78,47 @@ body {
   background-color: #f8f9fa;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
-.header h1 {
+.content .header__title {
   margin: 0;
   font-size: 24px;
   color: #000000;
 }
-.header .user-info {
+.content .header__user-info {
   display: flex;
   align-items: center;
 }
-.header .user-info img {
+.content .header__user-image {
   border-radius: 50%;
   width: 40px;
   height: 40px;
   margin-right: 10px;
 }
-.header .user-info .name {
+.content .header__user-name {
   margin-right: 10px;
   color: gray;
 }
-
-.search-bar {
-  display: flex;
-  align-items: center;
-  margin-top: 20px;
+.content .header__user-role {
+  color: gray;
 }
-.search-bar input {
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  width: 300px;
-  margin-right: 10px;
-  color: #000000;
-}
-.search-bar .notifications {
-  margin-right: 10px;
-  color: #000000;
-}
-.search-bar .new-user {
-  background-color: #007bff;
-  color: #f9f9f9;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 1rem;
-}
-.search-bar .new-user:hover {
-  background-color: rgb(0, 98.4, 204);
-}
-
-.table-container {
-  margin-top: 20px;
-  background-color: #f8f9fa;
-  border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-table th,
-table td {
-  padding: 15px;
-  text-align: left;
-  color: #000000;
-  border: 1px solid #ccc;
-}
-table th {
-  background-color: #f8f9fa;
-}
-table tr:nth-child(even) {
-  background-color: #f9f9f9;
-}
-table .fa-trash {
-  color: #ce0404;
-}
-table .fa-edit {
-  color: #007bff;
-}
-
-.pagination {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.content .form {
   padding: 20px;
 }
-.pagination .showing {
-  display: flex;
-  align-items: center;
-  color: #000000;
-}
-.pagination .showing select {
-  margin-left: 10px;
-  padding: 5px;
-}
-.pagination .pages {
-  display: flex;
-  align-items: center;
-}
-.pagination .pages button {
-  padding: 10px;
-  border: none;
-  background-color: #f8f9fa;
-  cursor: pointer;
-  margin: 0 5px;
-}
-.pagination .pages button.active {
-  background-color: #007bff;
-  color: #f9f9f9;
-  border-radius: 5px;
-}
-
-.form {
-  padding: 20px;
-}
-.form .form-group {
+.content .form__group {
   margin-bottom: 20px;
 }
-.form .form-group label {
+.content .form__label {
   display: block;
   font-weight: bold;
   margin-bottom: 5px;
 }
-.form .form-group input[type=text],
-.form .form-group input[type=email] {
+.content .form__input {
   width: 100%;
   padding: 10px;
   border: 1px solid #ced4da;
   border-radius: 4px;
   font-size: 1rem;
 }
-.form .form-group .help-text {
-  font-size: 0.875rem;
-  color: #6c757d;
-  margin-top: 5px;
-}
-.form .form-group .upload-btn {
+.content .form__upload-btn {
   margin-top: 10px;
   background-color: #007bff;
   color: #f9f9f9;
@@ -225,10 +128,10 @@ table .fa-edit {
   cursor: pointer;
   font-size: 1rem;
 }
-.form .form-group .upload-btn:hover {
+.content .form__upload-btn:hover {
   background-color: rgb(0, 98.4, 204);
 }
-.form .form-group .error-text {
+.content .form__error-text {
   color: #ce0404;
   /* Đặt màu chữ là đỏ */
   font-size: 0.875em;
@@ -236,8 +139,7 @@ table .fa-edit {
   margin-top: 4px;
   /* Khoảng cách phía trên */
 }
-
-.submit-btn {
+.content .form__submit-btn {
   background-color: #28a745;
   color: #f9f9f9;
   padding: 10px 20px;
@@ -247,12 +149,29 @@ table .fa-edit {
   font-size: 1rem;
   margin-right: 2px;
 }
-.submit-btn:hover {
+.content .form__submit-btn:hover {
   background-color: rgb(30.1449275362, 125.8550724638, 52);
 }
 
-.submit-btn-cancel {
-  background-color: #ce0404;
+.user-management__search-bar {
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+}
+.user-management__search-input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 300px;
+  margin-right: 10px;
+  color: #000000;
+}
+.user-management__notifications {
+  margin-right: 10px;
+  color: #000000;
+}
+.user-management__new-user {
+  background-color: #007bff;
   color: #f9f9f9;
   padding: 10px 20px;
   border: none;
@@ -260,13 +179,82 @@ table .fa-edit {
   cursor: pointer;
   font-size: 1rem;
 }
-.submit-btn-cancel:hover {
-  background-color: rgb(155.9714285714, 3.0285714286, 3.0285714286);
+.user-management__new-user:hover {
+  background-color: rgb(0, 98.4, 204);
+}
+.user-management__table-container {
+  margin-top: 20px;
+  background-color: #f8f9fa;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.user-management__table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.user-management__table th,
+.user-management__table td {
+  padding: 15px;
+  text-align: left;
+  color: #000000;
+  border: 1px solid #ccc;
+}
+.user-management__table th {
+  background-color: #f8f9fa;
+}
+.user-management__table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+.user-management__avatar {
+  width: 50px;
+}
+.user-management__edit-btn {
+  color: #007bff;
+}
+.user-management__edit-btn:hover {
+  opacity: 0.8;
+}
+.user-management__delete-btn {
+  color: #ce0404;
+}
+.user-management__delete-btn:hover {
+  opacity: 0.8;
+}
+.user-management__pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+}
+.user-management__showing {
+  display: flex;
+  align-items: center;
+  color: #000000;
+}
+.user-management__select-option {
+  margin-left: 10px;
+  padding: 5px;
+}
+.user-management__pages {
+  display: flex;
+  align-items: center;
+}
+.user-management__btn {
+  padding: 10px;
+  border: none;
+  background-color: #f8f9fa;
+  cursor: pointer;
+  margin: 0 5px;
+}
+.user-management__btn--active {
+  background-color: #007bff;
+  color: #f9f9f9;
+  border-radius: 5px;
 }
 
 /* Responsive Styles */
 @media (max-width: 767px) {
-  .hamburger {
+  .sidebar__hamburger {
     font-size: 30px;
     cursor: pointer;
     padding: 10px;
@@ -274,29 +262,49 @@ table .fa-edit {
     top: 10px;
     left: 10px;
   }
-  .sidebar {
+  .sidebar__container {
+    /* Thêm các thuộc tính cần thiết cho container */
     width: 250px;
     height: 100vh;
     position: fixed;
-    left: -250px; /* Ẩn sidebar */
+    left: -250px;
+    /* Ẩn sidebar */
     transition: left 0.3s;
     padding: 20px;
   }
-  .sidebar.active {
-    left: 0; /* Hiện sidebar */
+  .sidebar__container--active {
+    left: 0;
+    /* Hiện sidebar */
   }
-  .sidebar h2 {
+  .sidebar__title {
     margin: 0 0 20px;
   }
-  .sidebar ul {
+  .sidebar__list {
     list-style-type: none;
     padding: 0;
   }
-  .sidebar ul li {
+  .sidebar__list__list-item {
     padding: 10px 0;
+    cursor: pointer;
   }
-  .sidebar ul li i {
+  .sidebar__list__list-item__icon {
     margin-right: 10px;
+  }
+  .sidebar__list__list-item:hover {
+    background-color: rgb(13.25, 21.4038461538, 39.75);
+  }
+  .sidebar__close-btn {
+    background: none;
+    border: none;
+    font-size: 30px;
+    cursor: pointer;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+  }
+  .sidebar__close-btn:focus {
+    outline: none;
+    /* Xóa outline khi nút được chọn */
   }
   .content {
     margin-left: 0;
@@ -345,13 +353,14 @@ table .fa-edit {
   .sidebar {
     width: 200px;
   }
-  .hamburger {
-    display: none; /* Ẩn hamburger */
+  .sidebar__hamburger {
+    display: none;
+    /* Ẩn hamburger */
   }
   .content {
     padding: 15px;
   }
-  .header {
+  .content .header {
     padding: 15px;
   }
 }
@@ -359,8 +368,9 @@ table .fa-edit {
   .sidebar {
     width: 250px;
   }
-  .hamburger {
-    display: none; /* Ẩn hamburger */
+  .sidebar__hamburger {
+    display: none;
+    /* Ẩn hamburger */
   }
   .content {
     padding: 20px;

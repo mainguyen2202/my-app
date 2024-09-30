@@ -12,23 +12,30 @@ const SearchBar: React.FC<SearchBarProps> = ({ searchTerm, onSearchChange }) => 
   };
 
   return (
-    <div className="search-bar">
+
+
+    <div className="user-management__search-bar">
       <input
+        className="user-management__search-input"
         type="text"
         placeholder="Search by name or email"
         value={searchTerm}
         onChange={handleInputChange}
       />
-      <div className="notifications">
-        <i className="fas fa-bell">
-        </i>
+      <div className="user-management__notifications">
+        <i className="fas fa-bell"></i>
         (2)
       </div>
-      <button className="new-user">
-        <a href="/add"> New User</a>
+      <button className="user-management__new-user">
+        <a href="/add">New User</a>
       </button>
 
+      
     </div>
+ 
+
+
+
 
 
 

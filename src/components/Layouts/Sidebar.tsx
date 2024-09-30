@@ -12,35 +12,50 @@ const Sidebar: React.FC = () => {
     };
 
     return (
-        <div>
-            <div className="hamburger" onClick={toggleSidebar}>
+        <div className="sidebar">
+            <div className="sidebar__hamburger" onClick={toggleSidebar}>
                 <i className="fas fa-bars"></i>
             </div>
-            <div className={`sidebar ${isOpen ? 'active' : ''}`}>
-                <button className="close-btn" onClick={closeSidebar}>
+            <div className={`sidebar__container ${isOpen ? 'sidebar__container--active' : ''}`}>
+                <button className="sidebar__close-btn" onClick={closeSidebar}>
                     <i className="fas fa-times"></i>
                 </button>
-                <h2>Management</h2>
-                <ul>
-                    <li><i className="fas fa-users"></i> <a href="/">   People Management</a></li>
-                    <li><i className="fas fa-cogs"></i> System</li>
-                    <li><i className="fas fa-sliders-h"></i> Configuration</li>
-                    <li><i className="fas fa-folder-open"></i> Commands</li>
-                    <li><i className="fas fa-chart-bar"></i> Analysis</li>
-                    <li><i className="fas fa-cogs"></i> Settings</li>
-                    <li>
-                        <i className="fas fa-folder-open">
-                        </i>
-                        Commands
+                <h2 className="sidebar__title">Management</h2>
+                <ul className="sidebar__list">
+                    <li className="sidebar__list-item">
+                        <i className="sidebar__icon fas fa-users"></i>
+                        <a href="/">People Management</a>
                     </li>
-                    <li>
-                        <i className="fas fa-sliders-h">
-                        </i>
+                    <li className="sidebar__list-item">
+                        <i className="sidebar__icon fas fa-cogs"></i>
+                        System
+                    </li>
+                    <li className="sidebar__list-item">
+                        <i className="sidebar__icon fas fa-sliders-h"></i>
                         Configuration
                     </li>
-                    <li>
-                        <i className="fas fa-cogs">
-                        </i>
+                    <li className="sidebar__list-item">
+                        <i className="sidebar__icon fas fa-folder-open"></i>
+                        Commands
+                    </li>
+                    <li className="sidebar__list-item">
+                        <i className="sidebar__icon fas fa-chart-bar"></i>
+                        Analysis
+                    </li>
+                    <li className="sidebar__list-item">
+                        <i className="sidebar__icon fas fa-cogs"></i>
+                        Settings
+                    </li>
+                    <li className="sidebar__list-item">
+                        <i className="sidebar__icon fas fa-folder-open"></i>
+                        Commands
+                    </li>
+                    <li className="sidebar__list-item">
+                        <i className="sidebar__icon fas fa-sliders-h"></i>
+                        Configuration
+                    </li>
+                    <li className="sidebar__list-item">
+                        <i className="sidebar__icon fas fa-cogs"></i>
                         System
                     </li>
                 </ul>

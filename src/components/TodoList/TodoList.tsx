@@ -26,8 +26,8 @@ const TodoList: React.FC<TodoListProps> = ({ page, searchTerm  }) => {
 
     return (
 
-        <div className="table-container">
-            <table>
+        <div className="user-management__table-container">
+        <table className="user-management__table">
                 <thead>
                     <tr>
                         <th>Ảnh</th>

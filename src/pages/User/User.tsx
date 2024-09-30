@@ -1,5 +1,5 @@
 import React from 'react';
-import {  useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import Sidebar from '../../components/Layouts/Sidebar';
 import Header from '../../components/Layouts/Header';
 import UserForm from '../../components/Form/UserForm';
@@ -19,20 +19,18 @@ const User: React.FC = () => {
   const userId = Number(id);
 
   if (isNaN(userId)) {
-      console.error("ID không hợp lệ");
+    console.error("ID không hợp lệ");
   }
 
   return (
     <div>
       <div className="container">
 
-      <Sidebar />
+        <Sidebar />
 
         <div className="content">
-        <Header />
-          {/* {currentUser && ( */}
+          <Header />
           <UserForm userId={userId} />
-          {/* )} */}
         </div>
       </div>
 
